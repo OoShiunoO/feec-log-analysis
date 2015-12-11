@@ -1,0 +1,13 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+GET     /cvr/venraas                controllers.Application.cvr(src = "venraas_statistics")
+GET     /cvr/feec                   controllers.Application.cvr(src = "feec_statistics")
+GET     /history                    controllers.Application.history
+POST    /history/query              controllers.Application.historyQuery
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

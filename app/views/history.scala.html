@@ -1,0 +1,99 @@
+@import Model.UserHistoryModel
+
+@(history: List[UserHistoryModel] = Nil)
+
+@box("查詢顧客瀏覽紀錄") {
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/jquery.datetimepicker.css")">
+    <script src="@routes.Assets.versioned("javascripts/jquery.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/jquery.datetimepicker.full.min.js")"></script>
+
+
+    <script type="text/javascript">
+    jQuery(function(){jQuery('#datetimepicker1').datetimepicker();});
+    jQuery(function(){jQuery('#datetimepicker2').datetimepicker();});
+    </script>
+    <script type="text/javascript">
+        function check() {
+            var uid = historyQuery.uid.value.trim();
+            var vid = historyQuery.vid.value.trim();
+            if(uid != "" && vid != "")
+            {
+                alert("uid與vengid只能擇一輸入");
+            }
+            else if(uid == "" && vid == "")
+            {
+                alert("你沒有輸入使用者Id喔~");
+            }
+            else if(historyQuery.start_time.value >= historyQuery.end_time.value)
+            {
+                alert("起始時間需小於結束時間");
+            }
+            else
+            {
+                historyQuery.start_time.value = historyQuery.start_time.value.replace(/\//g,"-") + ":00.000";
+                historyQuery.end_time.value = historyQuery.end_time.value.replace(/\//g,"-") + ":00.000";
+                historyQuery.submit();
+            }
+        }
+    </script>
+
+    <div class="panel panel-default" style="margin-top: 100px">
+        <div class="panel-body">
+            <form class="form-inline" name="historyQuery" action="/history/query" method="post">
+                <h4 class="form-query-history-heading">請輸入uid或是vid<small>(只能擇一輸入)</small></h4>
+                <div class="form-group">
+                    <label for="inputUid">Uid</label>
+                    <input name="uid" type="text" id="inputUid" class="form-control" placeholder="Gohappy user Id .." required autofocus>
+                </div>
+                <!--<div align="center">OR</div>-->
+                <div class="form-group">
+                    <label for="inputVid">Venguid</label>
+                    <input name="vid" type="text" id="inputVid" class="form-control" placeholder="Venraas Id ..." required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="datetimepicker1">開始時間</label>
+                    <input name="start_time" type="text" id="datetimepicker1" class="form-control" placeholder="從這個時間點開始顯示 ..." required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="datetimepicker2">結束時間</label>
+                    <input name="end_time" type="text" id="datetimepicker2" class="form-control" placeholder="顯示到這個時間為止 ..." required autofocus>
+                </div>
+                <button class="btn btn-md btn-primary" type="button" onClick="check()">查詢</button>
+            </form>
+        </div>
+    </div>
+
+    @if(!history.isEmpty) {
+        <div class="panel panel-default" style="margin-top: 20px">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Api_LogTime</th>
+                            <th>Action</th>
+                            <th>Uri</th>
+                            <th>Para</th>
+                            <th>Referrer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @for(i <- 0 until history.size) {
+                        <tr>
+                            <td>@(i+1)</td>
+                            <td>@history(i).api_logtime</td>
+                            <td>@history(i).action</td>
+                            <td>@history(i).uri</td>
+                            <td>@history(i).para</td>
+                            <td>@history(i).referrer</td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+}

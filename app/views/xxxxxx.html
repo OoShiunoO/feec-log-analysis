@@ -1,0 +1,106 @@
+@box("查詢顧客瀏覽紀錄") {
+<link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/jquery.datetimepicker.css")">
+<script src="@routes.Assets.versioned("javascripts/jquery.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/jquery.datetimepicker.full.min.js")"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.5/semantic.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.5/semantic.min.js"></script>
+
+
+<script type="text/javascript">
+    jQuery(function(){jQuery('#datetimepicker1').datetimepicker();});
+    jQuery(function(){jQuery('#datetimepicker2').datetimepicker();});
+    </script>
+<script type="text/javascript">
+        function check() {
+            if(queryHistory.uid.value != "" && queryHistory.vid.value != "")
+            {
+                alert("uid與vengid只能擇一輸入");
+            }
+            else if(queryHistory.start_time.value >= queryHistory.end_time.value)
+            {
+                alert("起始時間需小於結束時間");
+            }
+            else
+            {
+                queryHistory.start_time.value = queryHistory.start_time.value.replace(/\//g,"-") + ":00.000";
+                queryHistory.end_time.value = queryHistory.end_time.value.replace(/\//g,"-") + ":00.000";
+                queryHistory.submit();
+            }
+        }
+    </script>
+
+
+<div class="ui container">
+    <div class="ui grid" style="margin-top: 200px">
+        <div class="four wide column"></div>
+        <div class="eight wide column">
+            <form class="ui form" name="queryHistory" action="@routes.Application.handlePost" method="post">
+                <div class="field">
+                    <div class="ui right labeled input">
+                        <div class="ui label">
+                            uid
+                        </div>
+                        <input name="uid" type="text" placeholder="Gohappy user Id ..." >
+                    </div>
+                </div>
+                <div align="center">OR</div>
+                <div class="field">
+                    <div class="ui right labeled input">
+                        <div class="ui label">
+                            venguid
+                        </div>
+                        <input name="vid" type="text" placeholder="Venraas Id ..." >
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui right labeled input">
+                        <div class="ui label">
+                            開始時間
+                        </div>
+                        <input id="datetimepicker1" name="start_time" type="text" placeholder="從這個時間點開始顯示 ..." >
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui right labeled input">
+                        <div class="ui label">
+                            結束時間
+                        </div>
+                        <input id="datetimepicker2" name="end_time" type="text" placeholder="顯示到這個時間為止 ..." >
+                    </div>
+                </div>
+                <button  class="ui animated button fluid orange" tabindex="0" type="button" onClick="check()">
+                    <div class="visible content">查詢</div>
+                    <div class="hidden content">
+                        <i class="right arrow icon"></i>
+                    </div>
+                </button >
+            </form>
+        </div>
+        <div class=" four wide column"></div>
+    </div>
+</div>
+
+
+<!--<div class="row" style="margin-top: 100px">-->
+<!--<div class="col-sm-4"></div>-->
+<!--<div class="col-sm-4">-->
+<!--<form class="form-query-history" name="queryHistory" action="@routes.Application.handlePost" method="post">-->
+<!--<h3 class="form-query-history-heading">請輸入uid或是vid<small>(只能擇一輸入)</small></h3>-->
+<!--<label for="inputUid" class="sr-only">Gohappy user Id ..</label>-->
+<!--<input name="uid" type="text" id="inputUid" class="form-control" placeholder="Gohappy user Id .." required autofocus>-->
+<!--<div align="center">OR</div>-->
+<!--<label for="inputVid" class="sr-only">Venraas Id ...</label>-->
+<!--<input name="vid" type="text" id="inputVid" class="form-control" placeholder="Venraas Id ..." required autofocus>-->
+<!--<label for="datetimepicker1" class="sr-only">從這個時間點開始顯示 ...</label>-->
+<!--<input name="start_time" type="text" id="datetimepicker1" class="form-control" placeholder="從這個時間點開始顯示 ..." required autofocus>-->
+<!--<label for="datetimepicker2" class="sr-only">顯示到這個時間為止 ...</label>-->
+<!--<input name="end_time" type="text" id="datetimepicker2" class="form-control" placeholder="顯示到這個時間為止 ..." required autofocus>-->
+
+<!--<button class="btn btn-lg btn-primary btn-block" type="button" onClick="check()">開始查詢</button>-->
+<!--</form>-->
+<!--</div>-->
+<!--<div class="col-sm-4"></div>-->
+<!--</div>-->
+
+
+}

@@ -1,0 +1,39 @@
+@import Model.CVRModel
+
+@(cvr: List[CVRModel] = Nil)
+
+@box("Gohappy網站點擊率 & 轉換率") {
+
+    @if(!cvr.isEmpty) {
+        <div class="panel panel-default" style="margin-top: 20px">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Impressions</th>
+                            <th>Clicks</th>
+                            <th>Buys</th>
+                            <th>CTR</th>
+                            <th>CVR</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @for(i <- 0 until cvr.size) {
+                        <tr>
+                            <td>@cvr(i).dt</td>
+                            <td>@cvr(i).impressions</td>
+                            <td>@cvr(i).clicks</td>
+                            <td>@cvr(i).buys</td>
+                            <td>@cvr(i).ctr</td>
+                            <td>@cvr(i).cvr</td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}
